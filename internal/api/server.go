@@ -23,6 +23,8 @@ func (server *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /users", server.getUsers)
 	mux.HandleFunc("GET /users/{id}", server.getUser)
 	mux.HandleFunc("POST /users", server.createUser)
+	mux.HandleFunc("PUT /users", server.updateUser)
+	mux.HandleFunc("DELETE /users/{id}", server.deleteUser)
 
 	return mux
 }
