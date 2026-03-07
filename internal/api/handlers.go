@@ -8,13 +8,13 @@ import (
 	"github.com/nicholasdly/rest/internal/models"
 )
 
-func (server *Server) health(w http.ResponseWriter, _ *http.Request) {
+func (s *Server) health(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK"))
 }
 
-func (server *Server) getUsers(w http.ResponseWriter, req *http.Request) {
-	users, err := server.store.GetAll()
+func (s *Server) getUsers(w http.ResponseWriter, req *http.Request) {
+	users, err := s.store.GetAll()
 
 	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
@@ -24,14 +24,14 @@ func (server *Server) getUsers(w http.ResponseWriter, req *http.Request) {
 	respondJson(w, http.StatusOK, users)
 }
 
-func (server *Server) getUser(w http.ResponseWriter, req *http.Request) {
+func (s *Server) getUser(w http.ResponseWriter, req *http.Request) {
 	id, err := strconv.Atoi(req.PathValue("id"))
 	if err != nil {
 		http.Error(w, "Invalid user id", http.StatusBadRequest)
 		return
 	}
 
-	user, err := server.store.Get(id)
+	user, err := s.store.Get(id)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
@@ -41,7 +41,7 @@ func (server *Server) getUser(w http.ResponseWriter, req *http.Request) {
 	respondJson(w, http.StatusOK, user)
 }
 
-func (server *Server) createUser(w http.ResponseWriter, req *http.Request) {
+func (s *Server) createUser(w http.ResponseWriter, req *http.Request) {
 	var user models.User
 	if err := json.NewDecoder(req.Body).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -53,7 +53,7 @@ func (server *Server) createUser(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	created, err := server.store.Create(user)
+	created, err := s.store.Create(user)
 	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
@@ -62,7 +62,7 @@ func (server *Server) createUser(w http.ResponseWriter, req *http.Request) {
 	respondJson(w, http.StatusOK, created)
 }
 
-func (server *Server) updateUser(w http.ResponseWriter, req *http.Request) {
+func (s *Server) updateUser(w http.ResponseWriter, req *http.Request) {
 	var user models.User
 	if err := json.NewDecoder(req.Body).Decode(&user); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -74,12 +74,12 @@ func (server *Server) updateUser(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if _, err := server.store.Get(user.Id); err != nil {
+	if _, err := s.store.Get(user.Id); err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
-	updated, err := server.store.Update(user)
+	updated, err := s.store.Update(user)
 	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
@@ -88,19 +88,19 @@ func (server *Server) updateUser(w http.ResponseWriter, req *http.Request) {
 	respondJson(w, http.StatusOK, updated)
 }
 
-func (server *Server) deleteUser(w http.ResponseWriter, req *http.Request) {
+func (s *Server) deleteUser(w http.ResponseWriter, req *http.Request) {
 	id, err := strconv.Atoi(req.PathValue("id"))
 	if err != nil {
 		http.Error(w, "Invalid user id", http.StatusBadRequest)
 		return
 	}
 
-	if _, err := server.store.Get(id); err != nil {
+	if _, err := s.store.Get(id); err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
-	if err := server.store.Delete(id); err != nil {
+	if err := s.store.Delete(id); err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}

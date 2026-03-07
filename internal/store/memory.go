@@ -21,23 +21,23 @@ func NewInMemoryStore() *InMemoryStore {
 	}
 }
 
-func (store *InMemoryStore) GetAll() ([]models.User, error) {
-	store.Lock()
-	defer store.Unlock()
+func (s *InMemoryStore) GetAll() ([]models.User, error) {
+	s.Lock()
+	defer s.Unlock()
 
-	users := make([]models.User, 0, len(store.users))
-	for _, user := range store.users {
+	users := make([]models.User, 0, len(s.users))
+	for _, user := range s.users {
 		users = append(users, user)
 	}
 
 	return users, nil
 }
 
-func (store *InMemoryStore) Get(id int) (models.User, error) {
-	store.Lock()
-	defer store.Unlock()
+func (s *InMemoryStore) Get(id int) (models.User, error) {
+	s.Lock()
+	defer s.Unlock()
 
-	user, found := store.users[id]
+	user, found := s.users[id]
 	if !found {
 		return models.User{}, fmt.Errorf("user not found (id=%d)", id)
 	}
@@ -45,40 +45,40 @@ func (store *InMemoryStore) Get(id int) (models.User, error) {
 	return user, nil
 }
 
-func (store *InMemoryStore) Create(user models.User) (models.User, error) {
-	store.Lock()
-	defer store.Unlock()
+func (s *InMemoryStore) Create(user models.User) (models.User, error) {
+	s.Lock()
+	defer s.Unlock()
 
-	user.Id = store.nextId
+	user.Id = s.nextId
 
-	store.nextId++
-	store.users[user.Id] = user
+	s.nextId++
+	s.users[user.Id] = user
 
 	return user, nil
 }
 
-func (store *InMemoryStore) Update(user models.User) (models.User, error) {
-	store.Lock()
-	defer store.Unlock()
+func (s *InMemoryStore) Update(user models.User) (models.User, error) {
+	s.Lock()
+	defer s.Unlock()
 
-	_, found := store.users[user.Id]
+	_, found := s.users[user.Id]
 	if !found {
 		return models.User{}, fmt.Errorf("user not found (id=%d)", user.Id)
 	}
 
-	store.users[user.Id] = user
+	s.users[user.Id] = user
 	return user, nil
 }
 
-func (store *InMemoryStore) Delete(id int) error {
-	store.Lock()
-	defer store.Unlock()
+func (s *InMemoryStore) Delete(id int) error {
+	s.Lock()
+	defer s.Unlock()
 
-	_, found := store.users[id]
+	_, found := s.users[id]
 	if !found {
 		return fmt.Errorf("user not found (id=%d)", id)
 	}
 
-	delete(store.users, id)
+	delete(s.users, id)
 	return nil
 }

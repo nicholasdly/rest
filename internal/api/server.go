@@ -16,15 +16,15 @@ func NewServer(store store.UserStore) *Server {
 	}
 }
 
-func (server *Server) Handler() http.Handler {
+func (s *Server) Handler() http.Handler {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /health", server.health)
-	mux.HandleFunc("GET /users", server.getUsers)
-	mux.HandleFunc("GET /users/{id}", server.getUser)
-	mux.HandleFunc("POST /users", server.createUser)
-	mux.HandleFunc("PUT /users", server.updateUser)
-	mux.HandleFunc("DELETE /users/{id}", server.deleteUser)
+	mux.HandleFunc("GET /health", s.health)
+	mux.HandleFunc("GET /users", s.getUsers)
+	mux.HandleFunc("GET /users/{id}", s.getUser)
+	mux.HandleFunc("POST /users", s.createUser)
+	mux.HandleFunc("PUT /users", s.updateUser)
+	mux.HandleFunc("DELETE /users/{id}", s.deleteUser)
 
 	return mux
 }
