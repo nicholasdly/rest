@@ -1,26 +1,34 @@
 package models
 
 import (
-	"fmt"
+	"errors"
+	"net/mail"
 	"strings"
+	"unicode/utf8"
 )
 
 type User struct {
-	Id        int
-	FirstName string
-	LastName  string
-	Email     string
+	Id        int    `json:"id"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Email     string `json:"email"`
 }
 
 func (user *User) Validate() error {
 	if strings.TrimSpace(user.FirstName) == "" {
-		return fmt.Errorf("invalid first name \"%s\"", user.FirstName)
+		return errors.New("invalid first name")
+	}
+	if utf8.RuneCountInString(user.FirstName) > 100 {
+		return errors.New("first name must not exceed 100 characters")
 	}
 	if strings.TrimSpace(user.LastName) == "" {
-		return fmt.Errorf("invalid last name \"%s\"", user.LastName)
+		return errors.New("invalid last name")
 	}
-	if strings.TrimSpace(user.Email) == "" {
-		return fmt.Errorf("invalid email \"%s\"", user.Email)
+	if utf8.RuneCountInString(user.LastName) > 100 {
+		return errors.New("last name must not exceed 100 characters")
+	}
+	if _, err := mail.ParseAddress(user.Email); err != nil {
+		return errors.New("invalid email")
 	}
 	return nil
 }
