@@ -1,0 +1,15 @@
+type: workspace
+model: workspace
+id: wk_PrWFqSDnzM
+createdAt: 2026-03-07T06:54:31.454966
+updatedAt: 2026-03-07T06:54:31.454968
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: rest
+encryptionKeyChallenge: null
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0
+settingDnsOverrides: []

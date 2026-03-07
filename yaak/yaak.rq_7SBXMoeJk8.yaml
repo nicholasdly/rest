@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_7SBXMoeJk8
+createdAt: 2026-03-07T06:57:51.816665
+updatedAt: 2026-03-07T08:17:31.558353
+workspaceId: wk_PrWFqSDnzM
+folderId: null
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: Get User
+sortPriority: -1772866581429.0
+url: ${[ baseUrl ]}/users/:id
+urlParameters:
+- enabled: true
+  name: :id
+  value: '2'
+  id: 2bNHtxUYrS
+- enabled: true
+  name: ''
+  value: ''
+  id: SJ6mn3bJt3

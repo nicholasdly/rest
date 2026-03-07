@@ -1,0 +1,37 @@
+type: http_request
+model: http_request
+id: rq_QqZy3Eedaj
+createdAt: 2026-03-07T06:58:01.820414
+updatedAt: 2026-03-07T08:18:50.868001
+workspaceId: wk_PrWFqSDnzM
+folderId: null
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "id": 2,
+      "firstName": "Maria",
+      "lastName": "Atehortua",
+      "email": "test@email.com"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: g6HCfqJADt
+method: PUT
+name: Update User
+sortPriority: -1772866581429.0
+url: ${[ baseUrl ]}/users
+urlParameters:
+- enabled: true
+  name: :id
+  value: '1'
+  id: dRwT5jTgWz
+- enabled: true
+  name: ''
+  value: ''
+  id: IKif8Ubv55
