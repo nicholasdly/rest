@@ -17,6 +17,7 @@ func (s *Server) getUsers(w http.ResponseWriter, req *http.Request) {
 	users, err := s.store.GetAll()
 
 	if err != nil {
+		s.logger.Error("Failed to retrieve users: " + err.Error())
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
@@ -55,6 +56,7 @@ func (s *Server) createUser(w http.ResponseWriter, req *http.Request) {
 
 	created, err := s.store.Create(user)
 	if err != nil {
+		s.logger.Error("Failed to create user: " + err.Error())
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
@@ -81,6 +83,7 @@ func (s *Server) updateUser(w http.ResponseWriter, req *http.Request) {
 
 	updated, err := s.store.Update(user)
 	if err != nil {
+		s.logger.Error("Failed to update user: " + err.Error())
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
@@ -101,6 +104,7 @@ func (s *Server) deleteUser(w http.ResponseWriter, req *http.Request) {
 	}
 
 	if err := s.store.Delete(id); err != nil {
+		s.logger.Error("Failed to delete user: " + err.Error())
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}

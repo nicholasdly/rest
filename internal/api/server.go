@@ -3,16 +3,19 @@ package api
 import (
 	"net/http"
 
+	"github.com/nicholasdly/rest/internal/logger"
 	"github.com/nicholasdly/rest/internal/store"
 )
 
 type Server struct {
-	store store.UserStore
+	store  store.UserStore
+	logger logger.Logger
 }
 
-func NewServer(store store.UserStore) *Server {
+func NewServer(store store.UserStore, logger logger.Logger) *Server {
 	return &Server{
-		store: store,
+		store:  store,
+		logger: logger,
 	}
 }
 
@@ -26,5 +29,6 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("PUT /users", s.updateUser)
 	mux.HandleFunc("DELETE /users/{id}", s.deleteUser)
 
+	// TODO: Add logging middleware
 	return mux
 }

@@ -13,7 +13,7 @@ import (
 )
 
 //
-// Mocks
+// Mock User Store
 //
 
 type MockStore struct {
@@ -58,19 +58,37 @@ func (m *MockStore) Delete(id int) error {
 }
 
 //
+// Mock Logger
+//
+
+type MockLogger struct {
+	infos  []string
+	errors []string
+}
+
+func (m *MockLogger) Info(message string) {
+	m.infos = append(m.infos, message)
+}
+
+func (m *MockLogger) Error(message string) {
+	m.errors = append(m.errors, message)
+}
+
+//
 // Helpers
 //
 
-func setupTestServer() (*Server, *MockStore) {
+func setupTestServer() (*Server, *MockStore, *MockLogger) {
 	mockStore := &MockStore{
 		users: []models.User{
 			{Id: 0, FirstName: "John", LastName: "Doe", Email: "hello@email.com"},
 			{Id: 1, FirstName: "Jane", LastName: "Doe", Email: "hello@email.com"},
 		},
 	}
+	mockLogger := &MockLogger{}
 
-	server := NewServer(mockStore)
-	return server, mockStore
+	server := NewServer(mockStore, mockLogger)
+	return server, mockStore, mockLogger
 }
 
 //
@@ -78,7 +96,7 @@ func setupTestServer() (*Server, *MockStore) {
 //
 
 func TestHealth(t *testing.T) {
-	server, _ := setupTestServer()
+	server, _, _ := setupTestServer()
 
 	req := httptest.NewRequest(http.MethodGet, "/health", nil)
 	w := httptest.NewRecorder()
@@ -95,7 +113,7 @@ func TestHealth(t *testing.T) {
 }
 
 func TestGetUsers(t *testing.T) {
-	server, store := setupTestServer()
+	server, store, _ := setupTestServer()
 
 	req := httptest.NewRequest(http.MethodGet, "/users", nil)
 	w := httptest.NewRecorder()
@@ -117,7 +135,7 @@ func TestGetUsers(t *testing.T) {
 }
 
 func TestGetUser(t *testing.T) {
-	server, store := setupTestServer()
+	server, store, _ := setupTestServer()
 
 	req := httptest.NewRequest(http.MethodGet, "/users/1", nil)
 	w := httptest.NewRecorder()
@@ -139,7 +157,7 @@ func TestGetUser(t *testing.T) {
 }
 
 func TestCreateUser(t *testing.T) {
-	server, store := setupTestServer()
+	server, store, _ := setupTestServer()
 
 	user := models.User{
 		Id:        2,
@@ -174,7 +192,7 @@ func TestCreateUser(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
-	server, store := setupTestServer()
+	server, store, _ := setupTestServer()
 
 	user := models.User{
 		Id:        1,
@@ -209,7 +227,7 @@ func TestUpdateUser(t *testing.T) {
 }
 
 func TestDeleteUser(t *testing.T) {
-	server, store := setupTestServer()
+	server, store, _ := setupTestServer()
 
 	req := httptest.NewRequest(http.MethodDelete, "/users/1", nil)
 	w := httptest.NewRecorder()
