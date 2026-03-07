@@ -37,8 +37,8 @@ func (store *InMemoryStore) Get(id int) (models.User, error) {
 	store.Lock()
 	defer store.Unlock()
 
-	user, ok := store.users[id]
-	if !ok {
+	user, found := store.users[id]
+	if !found {
 		return models.User{}, fmt.Errorf("user not found (id=%d)", id)
 	}
 
@@ -55,4 +55,30 @@ func (store *InMemoryStore) Create(user models.User) (models.User, error) {
 	store.users[user.Id] = user
 
 	return user, nil
+}
+
+func (store *InMemoryStore) Update(user models.User) (models.User, error) {
+	store.Lock()
+	defer store.Unlock()
+
+	_, found := store.users[user.Id]
+	if !found {
+		return models.User{}, fmt.Errorf("user not found (id=%d)", user.Id)
+	}
+
+	store.users[user.Id] = user
+	return user, nil
+}
+
+func (store *InMemoryStore) Delete(id int) error {
+	store.Lock()
+	defer store.Unlock()
+
+	_, found := store.users[id]
+	if !found {
+		return fmt.Errorf("user not found (id=%d)", id)
+	}
+
+	delete(store.users, id)
+	return nil
 }
