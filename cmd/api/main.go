@@ -17,5 +17,5 @@ func main() {
 
 	// Start server
 	log.Println("Server starting on :8080")
-	log.Fatal(http.ListenAndServe(":8080", server.Routes()))
+	log.Fatal(http.ListenAndServe(":8080", server.Handler()))
 }

@@ -16,7 +16,7 @@ func NewServer(store store.UserStore) *Server {
 	}
 }
 
-func (server *Server) Routes() http.Handler {
+func (server *Server) Handler() http.Handler {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /health", server.health)
