@@ -29,6 +29,5 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("PUT /users", s.updateUser)
 	mux.HandleFunc("DELETE /users/{id}", s.deleteUser)
 
-	// TODO: Add logging middleware
-	return mux
+	return s.loggingMiddleware(mux)
 }
