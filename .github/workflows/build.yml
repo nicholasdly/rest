@@ -1,13 +1,15 @@
-name: build
+name: Build
 
 on:
   push:
     branches: [main]
+    paths: ["go.mod", "**.go", ".github/workflows/build.yml"]
   pull_request:
     branches: [main]
+    paths: ["go.mod", "**.go", ".github/workflows/build.yml"]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
