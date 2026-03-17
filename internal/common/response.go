@@ -1,11 +1,11 @@
-package api
+package common
 
 import (
 	"encoding/json"
 	"net/http"
 )
 
-func respondJson(w http.ResponseWriter, status int, data any) {
+func RespondJson(w http.ResponseWriter, data any, status int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(data)

@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_ypzB84LCF2
 createdAt: 2026-03-07T06:57:57.491992
-updatedAt: 2026-03-07T08:17:22.224335
+updatedAt: 2026-03-17T01:22:26.293618
 workspaceId: wk_PrWFqSDnzM
 folderId: null
 authentication: {}
@@ -10,9 +10,8 @@ authenticationType: null
 body:
   text: |-
     {
-      "firstName": "Jane",
-      "lastName": "Doe",
-      "email": "hello@email.com"
+      "username": "janedoe",
+      "email": "janedoe@gmail.com"
     }
 bodyType: application/json
 description: ''
@@ -23,6 +22,6 @@ headers:
   id: yhCuQ6gQAJ
 method: POST
 name: Create User
-sortPriority: -1772866581429.0
+sortPriority: 1333.3333333333333
 url: ${[ baseUrl ]}/users
 urlParameters: []
