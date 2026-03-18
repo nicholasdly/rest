@@ -3,6 +3,7 @@ package users
 import (
 	"context"
 	"database/sql"
+	"log/slog"
 )
 
 type Repository struct {
@@ -16,6 +17,7 @@ func NewRepository(db *sql.DB) *Repository {
 func (r *Repository) GetAll(ctx context.Context) ([]User, error) {
 	rows, err := r.db.Query("SELECT id, username, email, created_at FROM users")
 	if err != nil {
+		slog.Error("failed to query for all users", "err", err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -38,6 +40,7 @@ func (r *Repository) Get(ctx context.Context, id int64) (User, error) {
 	).Scan(&user.Id, &user.Username, &user.Email, &user.CreatedAt)
 
 	if err != nil {
+		slog.Error("failed to query for specific user", "err", err, "id", id)
 		return User{}, err
 	}
 
@@ -52,6 +55,7 @@ func (r *Repository) Create(ctx context.Context, req CreateUserRequest) (User, e
 	).Scan(&user.Id, &user.Username, &user.Email, &user.CreatedAt)
 
 	if err != nil {
+		slog.Error("failed to insert new user", "err", err, "req", req)
 		return User{}, err
 	}
 
@@ -66,6 +70,7 @@ func (r *Repository) Update(ctx context.Context, id int64, req UpdateUserRequest
 	).Scan(&user.Id, &user.Username, &user.Email, &user.CreatedAt)
 
 	if err != nil {
+		slog.Error("failed to update user", "err", err, "req", req)
 		return User{}, err
 	}
 
@@ -76,6 +81,7 @@ func (r *Repository) Delete(ctx context.Context, id int64) error {
 	_, err := r.db.Exec("DELETE FROM users WHERE id = ?", id)
 
 	if err != nil {
+		slog.Error("failed to delete user", "err", err, "id", id)
 		return err
 	}
 

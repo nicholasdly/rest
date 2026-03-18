@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"log/slog"
 
 	_ "modernc.org/sqlite"
 )
@@ -9,16 +10,19 @@ import (
 func New(path string) (*sql.DB, error) {
 	db, err := sql.Open("sqlite", path)
 	if err != nil {
+		slog.Error("failed to open sqlite db", "err", err)
 		return nil, err
 	}
 
 	if err = db.Ping(); err != nil {
+		slog.Error("failed to ping sqlite db", "err", err)
 		return nil, err
 	}
 
 	db.SetMaxOpenConns(1)
 
 	if err = migrate(db); err != nil {
+		slog.Error("failed to run migration queries", "err", err)
 		return nil, err
 	}
 
