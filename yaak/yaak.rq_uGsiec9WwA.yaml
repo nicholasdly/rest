@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_uGsiec9WwA
+createdAt: 2026-03-19T22:58:19.200759
+updatedAt: 2026-03-19T23:22:07.995104
+workspaceId: wk_A2FoXFhtfj
+folderId: null
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: DELETE
+name: Delete User
+sortPriority: -1773961057262.0
+url: ${[ baseUrl ]}/users/:id
+urlParameters:
+- enabled: true
+  name: :id
+  value: f556674a-cf8c-41b0-8db1-04a2c9435055
+  id: by9FX3ME7I
+- enabled: true
+  name: ''
+  value: ''
+  id: qXYa89C0pz

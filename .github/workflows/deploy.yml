@@ -5,7 +5,7 @@ concurrency: production
 on:
   push:
     branches: [main]
-    paths: ["go.mod", "**.go", ".github/workflows/deploy.yml"]
+    paths: ["go.mod", "go.sum", "**.go", ".github/workflows/deploy.yml"]
 
 jobs:
   build:

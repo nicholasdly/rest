@@ -1,0 +1,35 @@
+type: http_request
+model: http_request
+id: rq_vdw2mvZYCi
+createdAt: 2026-03-19T22:58:14.679229
+updatedAt: 2026-03-19T23:21:56.405074
+workspaceId: wk_A2FoXFhtfj
+folderId: null
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "username": "janedoe",
+      "email": "janedoe@email.com",
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: 90INavMWpm
+method: PUT
+name: Update User
+sortPriority: -1773961057262.0
+url: ${[ baseUrl ]}/users/:id
+urlParameters:
+- enabled: true
+  name: :id
+  value: f556674a-cf8c-41b0-8db1-04a2c9435055
+  id: 7NurFDtgYd
+- enabled: true
+  name: ''
+  value: ''
+  id: SRHJEsHAKa
