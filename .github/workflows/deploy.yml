@@ -1,0 +1,41 @@
+name: Deploy
+
+concurrency: production
+
+on:
+  push:
+    branches: [main]
+    paths: ["go.mod", "**.go", ".github/workflows/deploy.yml"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test
+        run: go test -v -race -count=1 ./...
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    container: ghcr.io/railwayapp/cli:latest
+    env:
+      RAILWAY_SERVICE_ID: e68aac3d-9635-4b78-be4c-a23043e196fb
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Deploy
+        run: railway up --ci --service=${{ env.RAILWAY_SERVICE_ID }}
