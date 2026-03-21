@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_vdw2mvZYCi
 createdAt: 2026-03-19T22:58:14.679229
-updatedAt: 2026-03-19T23:21:56.405074
+updatedAt: 2026-03-20T16:19:26.912773
 workspaceId: wk_A2FoXFhtfj
 folderId: null
 authentication: {}
@@ -22,14 +22,14 @@ headers:
   id: 90INavMWpm
 method: PUT
 name: Update User
-sortPriority: -1773961057262.0
+sortPriority: 4000.0
 url: ${[ baseUrl ]}/users/:id
 urlParameters:
 - enabled: true
   name: :id
-  value: f556674a-cf8c-41b0-8db1-04a2c9435055
+  value: a30b866b-f8f1-426d-9bd2-563ac0ef9d19
   id: 7NurFDtgYd
 - enabled: true
   name: ''
   value: ''
-  id: SRHJEsHAKa
+  id: UDj9ATWcKV

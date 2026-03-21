@@ -2,13 +2,15 @@ type: workspace
 model: workspace
 id: wk_A2FoXFhtfj
 createdAt: 2026-03-19T22:56:34.459053
-updatedAt: 2026-03-19T22:56:34.459054
-authentication: {}
-authenticationType: null
+updatedAt: 2026-03-20T16:00:21.349889
+authentication:
+  key: X-API-Key
+  value: ${[ secure(value=b64'WUVOQ19lVUUwYXpOdVF3RkhHS0k1SVhJR3l5MkE5L2NaREpGNGl2eE9uYjgxQzZ2aktnK1NFNWRObUZhWjJFK2xEVGJhQTY0QUFVZFpWL1pSZGlwMkRBPT0') ]}
+authenticationType: apikey
 description: ''
 headers: []
 name: rest
-encryptionKeyChallenge: null
+encryptionKeyChallenge: eUE0azNuQwEJeRd9/t1H5+nY908pDC+IO7iioCsvq94ch2AcaobFU0QcKZNjj8b0PkENJEG4mYW8qb9VEFaB4XSiJXZgSncmoyKFk1lCDzTwvMNmkak4hlQtXtroK8UJdeU=
 settingValidateCertificates: true
 settingFollowRedirects: true
 settingRequestTimeout: 0

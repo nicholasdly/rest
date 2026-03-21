@@ -10,15 +10,17 @@ import (
 type Server struct {
 	server  *http.Server
 	handler http.Handler
+	config  *config.Config
 
 	userHandler *users.Handler
 }
 
-func NewServer(config config.Config) *Server {
+func NewServer(config *config.Config) *Server {
 	userService := users.NewService()
 	userHandler := users.NewHandler(userService)
 
 	s := &Server{
+		config:      config,
 		userHandler: userHandler,
 	}
 

@@ -1,11 +1,15 @@
 package server
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/nicholasdly/rest/internal/middleware"
+)
 
 func (s *Server) setupHandler() {
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /health", s.handleHealth)
+	mux.HandleFunc("GET /health", handleHealth)
 
 	mux.HandleFunc("GET /users", s.userHandler.GetAll)
 	mux.HandleFunc("GET /users/{id}", s.userHandler.Get)
@@ -14,9 +18,10 @@ func (s *Server) setupHandler() {
 	mux.HandleFunc("DELETE /users/{id}", s.userHandler.Delete)
 
 	s.handler = mux
+	s.handler = middleware.AuthMiddleware(s.config.ApiKey, s.handler)
 }
 
-func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
+func handleHealth(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("OK\n"))
 }

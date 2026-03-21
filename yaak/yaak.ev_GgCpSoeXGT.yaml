@@ -3,7 +3,7 @@ model: environment
 id: ev_GgCpSoeXGT
 workspaceId: wk_A2FoXFhtfj
 createdAt: 2026-03-19T23:10:36.739900
-updatedAt: 2026-03-19T23:21:16.369794
+updatedAt: 2026-03-20T02:21:07.953090
 name: Production
 public: true
 base: false
@@ -14,5 +14,9 @@ variables:
   name: baseUrl
   value: https://pong.up.railway.app
   id: EgZm4QzQua
+- enabled: true
+  name: apiKey
+  value: ${[ secure(value=b64'WUVOQ19lVUUwYXpOdVF3RVloWUpHWGNZNUUwcU1kNll4bHFnSk5sMzltaG1YNHF1UlpyMCs0WENsS0pVYXhXZ2FtejNaSEE5U2dmWUlrcVJlMTZnR2RCWStCYTRSclMrcjRKRENVUFlNWllMaXdnRUFSbHhLUmVRL2N0eUt3eWs9') ]}
+  id: bUjsTa0UUB
 color: var(--danger)
 sortPriority: 0.0

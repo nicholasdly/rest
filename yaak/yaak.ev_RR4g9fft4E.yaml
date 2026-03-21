@@ -3,7 +3,7 @@ model: environment
 id: ev_RR4g9fft4E
 workspaceId: wk_A2FoXFhtfj
 createdAt: 2026-03-19T22:57:18.368517
-updatedAt: 2026-03-19T22:57:31.415311
+updatedAt: 2026-03-20T02:20:57.855363
 name: Local
 public: true
 base: false
@@ -14,5 +14,9 @@ variables:
   name: baseUrl
   value: localhost:8080
   id: uvqUfnZDuS
+- enabled: true
+  name: apiKey
+  value: password
+  id: txTz0zX8xc
 color: var(--secondary)
 sortPriority: 0.0

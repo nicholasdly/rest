@@ -1,7 +1,8 @@
 package config
 
 import (
-	"log"
+	"fmt"
+	"log/slog"
 	"os"
 	"time"
 
@@ -13,13 +14,14 @@ type Config struct {
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 	IdleTimeout  time.Duration
+	ApiKey       string
 }
 
-func Load() Config {
+func Load() (Config, error) {
 	if err := godotenv.Load(); err != nil {
-		log.Print(".env file not found, using system environment.")
+		slog.Warn(".env file not found, using system environment.")
 	} else {
-		log.Print(".env file found.")
+		slog.Warn(".env file found.")
 	}
 
 	config := Config{
@@ -29,16 +31,32 @@ func Load() Config {
 		IdleTimeout:  getEnvDuration("IDLE_TIMEOUT", 60*time.Second),
 	}
 
-	return config
+	if key, err := requiredEnv("API_KEY"); err == nil {
+		config.ApiKey = key
+	} else {
+		return Config{}, err
+	}
+
+	return config, nil
+}
+
+func requiredEnv(key string) (string, error) {
+	v, ok := os.LookupEnv(key)
+	if !ok || v == "" {
+		return "", fmt.Errorf("Environment variable %s is required.", key)
+	}
+
+	return v, nil
 }
 
 func getEnv(key, fallback string) string {
 	v, ok := os.LookupEnv(key)
 	if !ok {
-		log.Printf("Environment variable %s not found, using fallback.", key)
+		slog.Warn("Environment variable not found, using fallback.", "key", key)
+		return fallback
 	}
 	if !ok || v == "" {
-		log.Printf("Environment variable %s is empty, using fallback.", key)
+		slog.Warn("Environment variable is empty, using fallback.", "key", key)
 		return fallback
 	}
 
@@ -50,7 +68,7 @@ func getEnvDuration(key string, fallback time.Duration) time.Duration {
 
 	d, err := time.ParseDuration(v)
 	if err != nil {
-		log.Printf("Environment variable %s is an invalid duration, using fallback.", key)
+		slog.Warn("Environment variable is an invalid duration, using fallback.", "key", key)
 		return fallback
 	}
 

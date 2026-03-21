@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_kkTRxuJ3WG
 createdAt: 2026-03-19T22:58:03.917857
-updatedAt: 2026-03-19T23:00:24.829178
+updatedAt: 2026-03-20T15:59:50.530075
 workspaceId: wk_A2FoXFhtfj
 folderId: null
 authentication: {}
@@ -22,6 +22,6 @@ headers:
   id: 5uPd2VhniR
 method: POST
 name: Create User
-sortPriority: -1773961057262.0
+sortPriority: 2000.0
 url: ${[ baseUrl ]}/users
 urlParameters: []

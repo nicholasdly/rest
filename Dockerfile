@@ -14,7 +14,7 @@ COPY . .
 RUN CGO_ENABLED=0 go build -o /out/api ./cmd/api
 
 # Stage 2: Run
-FROM scratch
+FROM scratch AS runtime
 
 # Copy the binary from the builder stage.
 COPY --from=builder /out/api /api
