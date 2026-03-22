@@ -1,74 +1,51 @@
 package users
 
-import (
-	"errors"
-	"time"
-
-	"github.com/google/uuid"
-)
+import "context"
 
 type Service struct {
-	store map[string]User
+	repo *Repository
 }
 
-func NewService() *Service {
-	return &Service{
-		store: make(map[string]User),
-	}
+func NewService(repo *Repository) *Service {
+	return &Service{repo: repo}
 }
 
-func (s *Service) GetAll() ([]User, error) {
-	users := make([]User, 0, len(s.store))
-
-	for _, user := range s.store {
-		users = append(users, user)
+func (s *Service) GetAll(ctx context.Context) ([]User, error) {
+	users, err := s.repo.GetAll(ctx)
+	if err != nil {
+		return nil, err
 	}
-
 	return users, nil
 }
 
-func (s *Service) Get(id string) (User, error) {
-	user, found := s.store[id]
-	if !found {
-		return User{}, errors.New("user not found")
+func (s *Service) Get(ctx context.Context, id string) (User, error) {
+	user, err := s.repo.Get(ctx, id)
+	if err != nil {
+		return User{}, err
 	}
-
 	return user, nil
 }
 
-func (s *Service) Create(username, email string) (User, error) {
-	user := User{
-		Id:        uuid.NewString(),
-		Username:  username,
-		Email:     email,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+func (s *Service) Create(ctx context.Context, username, email string) (User, error) {
+	user, err := s.repo.Create(ctx, username, email)
+	if err != nil {
+		return User{}, err
 	}
-
-	s.store[user.Id] = user
 	return user, nil
 }
 
-func (s *Service) Update(id, username, email string) (User, error) {
-	user, found := s.store[id]
-	if !found {
-		return User{}, errors.New("user not found")
+func (s *Service) Update(ctx context.Context, id, username, email string) (User, error) {
+	user, err := s.repo.Update(ctx, id, username, email)
+	if err != nil {
+		return User{}, err
 	}
-
-	user.Username = username
-	user.Email = email
-	user.UpdatedAt = time.Now()
-
-	s.store[id] = user
 	return user, nil
 }
 
-func (r *Service) Delete(id string) error {
-	_, found := r.store[id]
-	if !found {
-		return errors.New("user not found")
+func (s *Service) Delete(ctx context.Context, id string) error {
+	err := s.repo.Delete(ctx, id)
+	if err != nil {
+		return err
 	}
-
-	delete(r.store, id)
 	return nil
 }

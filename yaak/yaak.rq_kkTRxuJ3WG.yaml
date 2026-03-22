@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_kkTRxuJ3WG
 createdAt: 2026-03-19T22:58:03.917857
-updatedAt: 2026-03-20T15:59:50.530075
+updatedAt: 2026-03-22T04:01:44.031365
 workspaceId: wk_A2FoXFhtfj
 folderId: null
 authentication: {}
@@ -10,8 +10,8 @@ authenticationType: null
 body:
   text: |-
     {
-      "username": "johndoe",
-      "email": "johndoe@email.com",
+      "username": "nicholasly",
+      "email": "nichdly@gmail.com",
     }
 bodyType: application/json
 description: ''

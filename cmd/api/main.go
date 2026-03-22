@@ -1,26 +1,32 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"log/slog"
-	"os"
 
 	"github.com/nicholasdly/rest/internal/config"
+	"github.com/nicholasdly/rest/internal/db"
 	"github.com/nicholasdly/rest/internal/server"
 )
 
 func main() {
 	config, err := config.Load()
 	if err != nil {
-		slog.Error("Failed to load environment configuration.", "err", err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
-	server := server.NewServer(&config)
+	db, err := db.NewPool(context.Background(), config)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	server := server.NewServer(config, db)
 
 	slog.Info(fmt.Sprintf("Listening on %s", config.Address))
 	if err := server.Start(); err != nil {
-		slog.Error("Server stopped.", "err", err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 }

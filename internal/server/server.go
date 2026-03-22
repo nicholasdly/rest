@@ -3,6 +3,7 @@ package server
 import (
 	"net/http"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/nicholasdly/rest/internal/config"
 	"github.com/nicholasdly/rest/internal/users"
 )
@@ -10,13 +11,14 @@ import (
 type Server struct {
 	server  *http.Server
 	handler http.Handler
-	config  *config.Config
+	config  config.Config
 
 	userHandler *users.Handler
 }
 
-func NewServer(config *config.Config) *Server {
-	userService := users.NewService()
+func NewServer(config config.Config, db *pgxpool.Pool) *Server {
+	userRepository := users.NewRepository(db)
+	userService := users.NewService(userRepository)
 	userHandler := users.NewHandler(userService)
 
 	s := &Server{

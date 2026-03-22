@@ -2,7 +2,7 @@ type: http_request
 model: http_request
 id: rq_S8PMxps3UE
 createdAt: 2026-03-19T22:57:55.304039
-updatedAt: 2026-03-20T16:19:20.380712
+updatedAt: 2026-03-22T04:01:56.979562
 workspaceId: wk_A2FoXFhtfj
 folderId: null
 authentication: {}
@@ -18,9 +18,9 @@ url: ${[ baseUrl ]}/users/:id
 urlParameters:
 - enabled: true
   name: :id
-  value: a30b866b-f8f1-426d-9bd2-563ac0ef9d19
+  value: a365a7be-2cb1-4493-af55-67b15ef2e96d
   id: HQfzrBCk3m
 - enabled: true
   name: ''
   value: ''
-  id: G3zYkKWBus
+  id: pkH5JqE4Pz

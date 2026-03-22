@@ -15,6 +15,7 @@ type Config struct {
 	WriteTimeout time.Duration
 	IdleTimeout  time.Duration
 	ApiKey       string
+	DatabaseUrl  string
 }
 
 func Load() (Config, error) {
@@ -24,23 +25,29 @@ func Load() (Config, error) {
 		slog.Warn(".env file found.")
 	}
 
+	envApiKey, err := getRequiredEnv("API_KEY")
+	if err != nil {
+		return Config{}, err
+	}
+
+	envDatabaseUrl, err := getRequiredEnv("DATABASE_URL")
+	if err != nil {
+		return Config{}, err
+	}
+
 	config := Config{
 		Address:      getEnv("ADDRESS", ":8080"),
 		ReadTimeout:  getEnvDuration("READ_TIMEOUT", 15*time.Second),
 		WriteTimeout: getEnvDuration("WRITE_TIMEOUT", 15*time.Second),
 		IdleTimeout:  getEnvDuration("IDLE_TIMEOUT", 60*time.Second),
-	}
-
-	if key, err := requiredEnv("API_KEY"); err == nil {
-		config.ApiKey = key
-	} else {
-		return Config{}, err
+		ApiKey:       envApiKey,
+		DatabaseUrl:  envDatabaseUrl,
 	}
 
 	return config, nil
 }
 
-func requiredEnv(key string) (string, error) {
+func getRequiredEnv(key string) (string, error) {
 	v, ok := os.LookupEnv(key)
 	if !ok || v == "" {
 		return "", fmt.Errorf("Environment variable %s is required.", key)
@@ -55,7 +62,7 @@ func getEnv(key, fallback string) string {
 		slog.Warn("Environment variable not found, using fallback.", "key", key)
 		return fallback
 	}
-	if !ok || v == "" {
+	if v == "" {
 		slog.Warn("Environment variable is empty, using fallback.", "key", key)
 		return fallback
 	}
